@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.pedido.domain.Categoria;
 import com.pedido.domain.Cidade;
+import com.pedido.domain.Cliente;
+import com.pedido.domain.Endereco;
 import com.pedido.domain.Estado;
 import com.pedido.domain.Produto;
+import com.pedido.domain.enums.TipoCliente;
 import com.pedido.repositories.CategoriaRepository;
 import com.pedido.repositories.CidadeRepository;
+import com.pedido.repositories.ClienteRepository;
+import com.pedido.repositories.EnderecoRepository;
 import com.pedido.repositories.EstadoRepository;
 import com.pedido.repositories.ProdutoRespository;
 
@@ -31,6 +36,13 @@ public class PedidoApplication implements CommandLineRunner {
 	@Autowired
 	private CidadeRepository cidadeRepository;
 
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PedidoApplication.class, args);
 	}
@@ -60,12 +72,25 @@ public class PedidoApplication implements CommandLineRunner {
 		df.getCidades().addAll(Arrays.asList(sobradinho,aguasclaras));
 		sp.getCidades().add(campinas);
 		
+	
+		Cliente c1 = new Cliente(null, "Dailan", "dailansantos@gmail.com", "0450134143", TipoCliente.PESSOAFISICA);
+		c1.getTelefones().addAll(Arrays.asList("61991602632","332233555"));
+		
+		Endereco e1 = new Endereco(null, "rua 1", "01a", "teste", "sobrad", "teste", sobradinho, c1);
+		Endereco e2 = new Endereco(null, "Aguas 1", "12", "Predinho", "esquina", "nao sei", aguasclaras, c1);
+		
+		c1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		
 		
 		categoriaRespository.save(Arrays.asList(cat1,cat2));
 		produtoRepository.save(Arrays.asList(p1,p2,p3));
 		estadoRepository.save(Arrays.asList(df,sp));
 		cidadeRepository.save(Arrays.asList(sobradinho,aguasclaras,campinas));
+		clienteRepository.save(c1);
+		enderecoRepository.save(Arrays.asList(e1,e2));
 	}
+	
 
 }
 
