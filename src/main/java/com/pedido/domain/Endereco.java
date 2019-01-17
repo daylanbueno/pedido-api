@@ -1,5 +1,8 @@
 package com.pedido.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -21,18 +24,20 @@ public class Endereco implements Serializable {
 	private String complemento;
 	private String bairro;
 	private String cep;
-	
+
+
 	@ManyToOne
 	@JoinColumn(name="cidade_id")
 	private Cidade cidade;
-	
+
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 
-	
+
 	public Endereco() {}
-	
+
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
 			Cidade cidade, Cliente cliente) {
 		super();
@@ -132,6 +137,6 @@ public class Endereco implements Serializable {
 			return false;
 		return true;
 	}
-	
-	  
+
+
 }
